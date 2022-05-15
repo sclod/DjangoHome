@@ -12,8 +12,8 @@
         {% for student in students %}
         <li>
             {{ student.id|safe }}. {{ student.first_name|safe }} {{ student.last_name|safe }}
-            <a href="/edit_student_form/{{student.id}}">Edit</a>
-            <a href="/delete_student/{{student.id}}">Delete</a>
+            <a href="{% url 'edit-student' student.id %}" method="GET">Edit</a>
+            <a href="{% url 'delete-student' student.id %}">Delete</a>
         </li>
         {% endfor %}
     </ul>

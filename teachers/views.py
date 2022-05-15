@@ -17,7 +17,7 @@ def create_teacher(request):
         form = TeacherForm(request.POST)
         if form.is_valid():
             Teachers.objects.create(**form.cleaned_data)
-            return HttpResponse('Teacher created')
+            return HttpResponseRedirect(reverse('list-teachers'))
     return render(request, 'teacher/create_teacher.html', {'form': form})
 
 
@@ -27,14 +27,13 @@ def edit_teacher(request, teacher_id):
         if form.is_valid():
             Teachers.objects.update_or_create(defaults=form.cleaned_data, id=teacher_id)
             return HttpResponseRedirect(reverse('list-teachers'))
-    else:
-        student = Teachers.objects.filter(id=teacher_id).first()
-        form = TeachersFormFromModel(instance=student)
-
-    return render(request, 'teacher/edit_teacher.html', {'form': form}, {'teacher_id': teacher_id})
+    elif request.method == 'GET':
+        teacher = Teachers.objects.filter(id=teacher_id).first()
+        form = TeachersFormFromModel(instance=teacher)
+    return render(request, 'teacher/edit_teacher.html', {'form': form, 'teacher_id': teacher_id})
 
 
 def delete_teacher(request, teacher_id):
     teacher = Teachers.objects.filter(id=teacher_id)
     teacher.delete()
-    return HttpResponseRedirect(reverse('list-teacher'))
+    return HttpResponseRedirect(reverse('list-teachers'))

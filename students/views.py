@@ -1,13 +1,9 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
-from faker import Faker
-from django.forms.models import model_to_dict
 
 from .forms import StudentForm, StudentFormFromModel
 from .models import Student
-
-fake = Faker()
 
 
 def index(request):
@@ -47,11 +43,10 @@ def edit_student(request, student_id):
         if form.is_valid():
             Student.objects.update_or_create(defaults=form.cleaned_data, id=student_id)
             return HttpResponseRedirect(reverse('list-students'))
-    else:
+    elif request.method == 'GET':
         student = Student.objects.filter(id=student_id).first()
         form = StudentFormFromModel(instance=student)
-
-    return render(request, 'student/edit_student_form.html', {'form': form}, {'student_id': student_id})
+    return render(request, 'student/edit_student_form.html', {'form': form, 'student_id': student_id})
 
 
 def delete_student(request, student_id):
