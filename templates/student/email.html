@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block head %}
+    <style type="text/css">
+        body {
+            background-color: goldenrod;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>Email Form</h1>
+    <form action="{% url 'email_form' %}" method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

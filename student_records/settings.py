@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
 
 # Application definition
 
@@ -134,3 +133,14 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'fantom304@gmail.com'
+EMAIL_HOST_PASSWORD = 'Osokorki142327pittbul272831'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
