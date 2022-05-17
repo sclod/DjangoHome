@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from .models import Student
 
@@ -14,3 +15,18 @@ class StudentFormFromModel(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['first_name', 'last_name', 'age']
+
+
+class GenerateRandomStudentForm(forms.Form):
+    total = forms.IntegerField(
+        validators=[
+            MinValueValidator(10),
+            MaxValueValidator(500)
+        ]
+    )
+
+
+class MessageEmail(forms.Form):
+    title = forms.CharField(label='Tittle', required=True)
+    message = forms.CharField(label='messages', required=True)
+    email = forms.EmailField(label='Email', required=True)

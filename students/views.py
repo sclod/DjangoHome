@@ -1,9 +1,12 @@
+from tkinter import E
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib import messages
 
-from .forms import StudentForm, StudentFormFromModel
+from .forms import GenerateRandomStudentForm, StudentForm, StudentFormFromModel, MessageEmail
 from .models import Student
+from .tasks import create_random_students, email_send
 
 
 def index(request):
@@ -19,6 +22,37 @@ def get_student(request):
         )
         return HttpResponse(output)
     return HttpResponse('Method not found')
+
+
+def manually_generate_students(request):
+    if request.method == 'POST':
+        form = GenerateRandomStudentForm(request.POST)
+        if form.is_valid():
+            total = form.cleaned_data.get('total')
+            create_random_students.delay(total)
+            messages.success(request, 'We are genereate your random students!')
+            return redirect('list-students')
+    else:
+        form = GenerateRandomStudentForm()
+    
+    return render(request, 'student/student_generator.html', {'form': form})
+
+
+def email_form(request):
+    if request.method == 'POST':
+        form = MessageEmail(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            message = form.cleaned_data.get('message')
+            email = form.cleaned_data.get('email')
+            email_send.delay(title, message, email)
+            messages.success(request, 'Send!')
+            return redirect('list-students')
+    else:
+        form = MessageEmail()
+    
+    return render(request, 'student/email.html', {'form': form})
+
 
 
 def list_students(request):
