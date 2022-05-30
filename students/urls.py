@@ -9,5 +9,5 @@ urlpatterns = [
     path('delete_student/<int:student_id>', delete_student, name='delete-student'),
     path('create_student', create_student, name='create-student'),
     path('genereate_students_form', manually_generate_students, name='genereate-students-form'),
-    path('email_form', email_form, name='email_form'),
+    path('email_form', email_form, name='email-form'),
 ]
