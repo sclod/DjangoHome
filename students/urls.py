@@ -21,4 +21,5 @@ urlpatterns = [
     path('genereate_students_form', manually_generate_students, name='genereate-students-form'),
     path('email_form', email_form, name='email_form'),
     path('get_student/', get_student),
+    path('email_form', email_form, name='email-form'),
 ]

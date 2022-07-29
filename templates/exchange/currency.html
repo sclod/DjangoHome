@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+    <table class="table table-dark table-bordered table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Buy</th>
+            <th scope="col">Sell</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>{{ currencyUSD }}</td>
+            <td>{{ buyUSD }}</td>
+            <td>{{ sellUSD }}</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>{{ currencyEUR }}</td>
+            <td>{{ buyEUR }}</td>
+            <td>{{ sellEUR }}</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>{{ currencyBTC }}</td>
+            <td>{{ buyBTC }}</td>
+            <td>{{ sellBTC }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

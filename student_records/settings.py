@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,7 +36,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'students',
     'teachers',
     'group',
+    'exchange',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +147,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
+
+CELERY_BEAT_SCHEDULE = {
+    'exchange': {
+        'task': 'exchange.tasks.get_currency_rates',
+        'schedule': 30,
+    }
+}
 
 
 EMAIL_HOST = 'smtp.gmail.com'
