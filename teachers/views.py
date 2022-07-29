@@ -1,39 +1,31 @@
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse_lazy
 
 from .models import Teachers
-from .forms import TeacherForm, TeachersFormFromModel
+
+from django.views.generic import ListView
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 
-def list_teachers(request):
-    teachers_list = Teachers.objects.all()
-    return render(request, 'teacher/teachers_list.html', {'teachers': teachers_list})
+class ListTeacherView(ListView):
+    model = Teachers
+    template_name = 'teacher/teacher_list.html'
 
 
-def create_teacher(request):
-    if request.method == 'GET':
-        form = TeacherForm()
-    elif request.method == 'POST':
-        form = TeacherForm(request.POST)
-        if form.is_valid():
-            Teachers.objects.create(**form.cleaned_data)
-            return HttpResponseRedirect(reverse('list-teachers'))
-    return render(request, 'teacher/create_teacher.html', {'form': form})
+class TeacherCreateView(CreateView):
+    model = Teachers
+    template_name = 'teacher/teacher_form.html'
+    fields = ['first_name', 'last_name', 'age']
+    success_url = reverse_lazy('list-teachers')
 
 
-def edit_teacher(request, teacher_id):
-    if request.method == 'POST':
-        form = TeachersFormFromModel(request.POST)
-        if form.is_valid():
-            Teachers.objects.update_or_create(defaults=form.cleaned_data, id=teacher_id)
-            return HttpResponseRedirect(reverse('list-teachers'))
-    elif request.method == 'GET':
-        teacher = Teachers.objects.filter(id=teacher_id).first()
-        form = TeachersFormFromModel(instance=teacher)
-    return render(request, 'teacher/edit_teacher.html', {'form': form, 'teacher_id': teacher_id})
+class TeacherUpdateView(UpdateView):
+    model = Teachers
+    template_name = 'teacher/edit_teacher_form.html'
+    fields = ['first_name', 'last_name', 'age']
+    success_url = reverse_lazy('list-teachers')
 
-
-def delete_teacher(request, teacher_id):
-    teacher = Teachers.objects.filter(id=teacher_id)
-    teacher.delete()
-    return HttpResponseRedirect(reverse('list-teachers'))
+class TeacherDeleteView(DeleteView):
+    model = Teachers
+    template_name = 'teacher/teacher_confirm_delete.html'
+    success_url = reverse_lazy('list-teachers')

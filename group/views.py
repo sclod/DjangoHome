@@ -1,15 +1,18 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from .models import Group
-from .forms import GroupForm
+
+from django.urls import reverse_lazy
+
+from django.views.generic.edit import CreateView
+from django.views.generic import ListView
 
 
-def create_group(request):
-    if request.method == 'GET':
-        form = GroupForm()
-    elif request.method == 'POST':
-        form = GroupForm(request.POST)
-        if form.is_valid():
-            Group.objects.create(**form.cleaned_data)
-            return HttpResponse('Group created')
-    return render(request, 'group.html', {'form': form})
+class ListGroupView(ListView):
+    model = Group
+    template_name = 'group/group_list.html'
+
+
+class GroupCreateView(CreateView):
+    model = Group
+    template_name = 'group/group_form.html'
+    fields = ['name_group']
+    success_url = reverse_lazy('list-group')

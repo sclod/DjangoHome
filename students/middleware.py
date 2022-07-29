@@ -1,6 +1,6 @@
 import time
 
-from .views import edit_student, create_student
+from .views import StudentUpdateView, StudentCreateView
 
 
 class SimpleMiddleware:
