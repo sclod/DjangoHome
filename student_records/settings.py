@@ -84,14 +84,9 @@ WSGI_APPLICATION = 'student_records.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config() 
+    'default': dj_database_url.config()
 }
 
-
-# Heroku: Update database configuration from $DATABASE_URL.
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -162,3 +157,8 @@ EMAIL_HOST_USER = 'fantom304@gmail.com'
 EMAIL_HOST_PASSWORD = 'Osokorki142327pittbul272831'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
+
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)

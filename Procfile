@@ -1,0 +1,1 @@
+web: waitress-serve student_records.wsgi:application
