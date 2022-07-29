@@ -6,11 +6,9 @@
 {% endblock %}
 {% block content %}
   <h1>Create Student</h1>
-  <form action="{% url 'create-student' %}" method="POST">
+  <form method="POST">
     {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-    </table>
+        {{ form.as_p }}
     <input type="submit" value="Submit">
   </form>
 {% endblock %}

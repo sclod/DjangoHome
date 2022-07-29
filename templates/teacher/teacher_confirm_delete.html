@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block head %}
+    <style type="text/css">
+        body { background-color: darkseagreen; }
+    </style>
+{% endblock %}
+{% block content %}
+  <form method="POST">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}?"</p>
+        <input type="submit" value="Confirm">
+  </form>
+{% endblock %}

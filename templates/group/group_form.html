@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block head %}
+    <style type="text/css">
+        body { background-color: darkseagreen; }
+    </style>
+{% endblock %}
+{% block content %}
+  <h1>Create Group</h1>
+  <form method="POST">
+    {% csrf_token %}
+        {{ form.as_p }}
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}
